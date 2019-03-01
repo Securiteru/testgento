@@ -1,0 +1,9 @@
+<?php
+$id = YOUR_PRODUCT_ID;
+$sku = 'YOUR_PRODUCT_SKU';
+$_product = $block->getProductById($id);
+$_product = $block->getProductBySku($sku);
+echo $_product->getEntityId();
+echo '<br />';
+echo $_product->getName();
+

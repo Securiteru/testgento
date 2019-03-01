@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <!--
+        In Magento 2 URL’s are constructed this way:
+        <frontName>/<controler_folder_name>/<controller_class_name>
+
+        So in our example, the final URL will look like this:
+
+         helloworld/index/index
+         -->
+        <route id="helloworld" frontName="helloworld">
+            <module name="Inchoo_Helloworld" />
+        </route>
+
+        <route id="testlink" frontName="testlink">
+            <module name="Inchoo_Helloworld" />
+        </route>
+    </router>
+</config>
+

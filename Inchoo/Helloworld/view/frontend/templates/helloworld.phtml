@@ -1,0 +1,172 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/images/favicon.ico">
+    <!-- custom JS -->
+
+    <title>TestPage</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, tr, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            tr = div.getElementsByClassName('category_dropdown');
+            for (i = 0; i < tr.length; i++) {
+                txtValue = tr[i].id || tr[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+
+            tr = div.getElementsByClassName('category_dropdown');
+            for(var i = 0; i < tr.length; i++) {console.log("boo");}
+        }
+        function filterFunctionSelect(){
+            var input, filter, ul, li, tr, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            selectInput = document.getElementById("SelectmyInput");
+            choices=selectInput.options[selectInput.selectedIndex].text;
+            div = document.getElementById("myDropdown");
+            tr = div.getElementsByClassName('category_dropdown');
+            for (i = 0; i < tr.length; i++) {
+                txtValue = tr[i].id || tr[i].innerText;
+                if (txtValue.toUpperCase().indexOf(choices) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+
+            tr = div.getElementsByClassName('category_dropdown');
+            for(var i = 0; i < tr.length; i++) {console.log("boo");}
+        }
+
+
+
+    </script>
+
+
+</head>
+<body shm_addon_injected="1.4.16.1">
+<h1><?php echo $this->getHelloWorldTxt();
+
+    $id = 1;
+    $_product = $block->getProductById($id);
+    $productStock=$block->getProductStock($id);
+    $category=$block->getAttributeSetName($_product);
+
+    ?></h1>
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">ADMINISTRARE MAGENTO PLM DE VIATA</h1>
+            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <div class="col-12 my-5 text-center">
+            <div class="col-12">
+                <div class="dropdown">
+                    <button onclick="myFunction()" class="dropbtn" >Dropdown</button>
+                    <div id="myDropdown" class="dropdown-content" >
+                        <input type="text" placeholder="Search" id="myInput" onkeyup="filterFunction()">
+                        <select name="value" id="SelectmyInput"  onkeyup="filterFunctionSelect()">
+                            <option value="Bag">Bag</option>
+                            <option value="NotBag">NotBag</option>
+                        </select>
+
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nume produs</th>
+                                <th scope="col">Cod produs</th>
+                                <th scope="col">Pret</th>
+                                <th scope="col">Cantitate</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                    <?php
+                    echo"<tr class='category_dropdown' id='$category'>";
+                        echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 2" . "</td>";
+                        echo"<td scope='row'>" . $_product->getName() . "2" . "</td>";
+                        echo"<td scope='row'>" . $_product->getSku() . "</td>";
+                        echo"<td scope='row'>" . $_product->getPrice() . "</td>";
+                        echo"<td scope='row'>" . $productStock . "</td>";
+                    echo"<td scope='row'>" . $category . "</td>";
+                        echo"</tr>";
+
+                    echo"<tr class='category_dropdown' id='$category'>";
+                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 2" . "</td>";
+                    echo"<td scope='row'>" . $_product->getName() . "2" . "</td>";
+                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
+                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
+                    echo"<td scope='row'>" . $productStock . "</td>";
+                    echo"<td scope='row''>" . $category . "</td>";
+                    echo"</tr>";
+
+                    echo"<tr class='category_dropdown' id='$category'>";
+                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 1" . "</td>";
+                    echo"<td scope='row'>" . $_product->getName() . "1" . "</td>";
+                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
+                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
+                    echo"<td scope='row'>" . $productStock . "</td>";
+                    echo"<td scope='row' >" . $category . "</td>";
+                    echo"</tr>";
+
+                    echo"<tr class='category_dropdown' id='$category'>";
+                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 1" . "</td>";
+                    echo"<td scope='row'>" . $_product->getName() . "1" . "</td>";
+                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
+                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
+                    echo"<td scope='row'>" . $productStock . "</td>";
+                    echo"<td scope='row'>" . $category . "</td>";
+                    echo"</tr>";
+                        ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+</body>
+</html>
