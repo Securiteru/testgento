@@ -75,9 +75,7 @@ class Helloworld extends \Magento\Framework\View\Element\Template
         $this->_options=[ ['label'=>'Select Attribute Set', 'value'=>'']];
 
         foreach ($coll->toOptionArray() as $d) {
-            if ($d['label'] !== 'Default') {
                 $this->_options[] = ['label' => $d['label'], 'value' => $d['value']];
-            }
         }
         return $this->_options;
     }
