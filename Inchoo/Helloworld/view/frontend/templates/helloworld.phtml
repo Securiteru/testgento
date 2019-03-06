@@ -19,41 +19,48 @@
             document.getElementById("myDropdown").classList.toggle("show");
         }
 
-        function filterFunction() {
+        // function filterFunction() {
+        //     var input, filter, ul, li, tr, i;
+        //     input = document.getElementById("myInput");
+        //     filter = input.value.toUpperCase();
+        //     div = document.getElementById("myDropdown");
+        //     tr = div.getElementsByClassName('category_dropdown');
+        //     for (i = 0; i < tr.length; i++) {
+        //         txtValue = tr[i].id || tr[i].innerText;
+        //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //             tr[i].style.display = "";
+        //         } else {
+        //             tr[i].style.display = "none";
+        //         }
+        //     }
+        //
+        //     tr = div.getElementsByClassName('category_dropdown');
+        //     for(var i = 0; i < tr.length; i++) {console.log("boo");}
+        // }
+
+
+        function filterFunctionDropdown() {
             var input, filter, ul, li, tr, i;
-            input = document.getElementById("myInput");
+            input = document.getElementById("selectMyInput");
             filter = input.value.toUpperCase();
             div = document.getElementById("myDropdown");
-            tr = div.getElementsByClassName('category_dropdown');
-            for (i = 0; i < tr.length; i++) {
-                txtValue = tr[i].id || tr[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+            if(filter !== "SELECT") {
+                tr = div.getElementsByClassName('category_dropdown');
+                for (i = 0; i < tr.length; i++) {
+                    txtValue = tr[i].id || tr[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }else{
+                tr = div.getElementsByClassName('category_dropdown');
+                for (i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+
                 }
             }
-
-            tr = div.getElementsByClassName('category_dropdown');
-            for(var i = 0; i < tr.length; i++) {console.log("boo");}
-        }
-        function filterFunctionSelect(){
-            var input, filter, ul, li, tr, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            selectInput = document.getElementById("SelectmyInput");
-            choices=selectInput.options[selectInput.selectedIndex].text;
-            div = document.getElementById("myDropdown");
-            tr = div.getElementsByClassName('category_dropdown');
-            for (i = 0; i < tr.length; i++) {
-                txtValue = tr[i].id || tr[i].innerText;
-                if (txtValue.toUpperCase().indexOf(choices) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-
             tr = div.getElementsByClassName('category_dropdown');
             for(var i = 0; i < tr.length; i++) {console.log("boo");}
         }
@@ -65,13 +72,9 @@
 
 </head>
 <body shm_addon_injected="1.4.16.1">
-<h1><?php echo $this->getHelloWorldTxt();
-
-    $id = 1;
-    $_product = $block->getProductById($id);
-    $productStock=$block->getProductStock($id);
-    $category=$block->getAttributeSetName($_product);
-
+<h1><?php
+    $productCollection=$block->getProductCollection();
+    $attributeThingy=$block->getAllOptions();
     ?></h1>
 
 <main role="main">
@@ -92,13 +95,17 @@
         <div class="col-12 my-5 text-center">
             <div class="col-12">
                 <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn" >Dropdown</button>
+<!--                    <button onclick="myFunction()" class="dropbtn" >Dropdown</button>-->
                     <div id="myDropdown" class="dropdown-content" >
-                        <input type="text" placeholder="Search" id="myInput" onkeyup="filterFunction()">
-                        <select name="value" id="SelectmyInput"  onkeyup="filterFunctionSelect()">
-                            <option value="Bag">Bag</option>
-                            <option value="NotBag">NotBag</option>
+<!--                        <input type="text" placeholder="Search" id="myInput" onkeyup="filterFunction()">-->
+                        <select name="value" id="selectMyInput"  onchange="filterFunctionDropdown()">
+                            <?php
+                            foreach ($attributeThingy as $atty) {
+                                echo '<option value=' . $atty["label"] . '>' . $atty['label'] . '</option>';
+                            }
+                            ?>
                         </select>
+                        <br>
 
                         <table class="table table-hover">
                             <thead>
@@ -108,45 +115,22 @@
                                 <th scope="col">Cod produs</th>
                                 <th scope="col">Pret</th>
                                 <th scope="col">Cantitate</th>
+                                <th scope="col">Category</th>
                             </tr>
                             </thead>
                             <tbody>
                     <?php
-                    echo"<tr class='category_dropdown' id='$category'>";
-                        echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 2" . "</td>";
-                        echo"<td scope='row'>" . $_product->getName() . "2" . "</td>";
-                        echo"<td scope='row'>" . $_product->getSku() . "</td>";
-                        echo"<td scope='row'>" . $_product->getPrice() . "</td>";
-                        echo"<td scope='row'>" . $productStock . "</td>";
-                    echo"<td scope='row'>" . $category . "</td>";
+                    foreach ($productCollection as $prod) {
+                        $category=$block->getAttributeSetName($prod);
+                        echo"<tr class='category_dropdown' id='$category'>";
+                        echo"<td scope='row'>" . $prod->getEntityId() . "</td>";
+                        echo"<td scope='row'>" . $prod->getName() . "</td>";
+                        echo"<td scope='row'>" . $prod->getSku() . "</td>";
+                        echo"<td scope='row'>" . $prod->getPrice() . "</td>";
+                        echo"<td scope='row'>" . $block->getProductStock($prod->getId()) . "</td>";
+                        echo"<td scope='row'>" . $block->getAttributeSetName($prod) . "</td>";
                         echo"</tr>";
-
-                    echo"<tr class='category_dropdown' id='$category'>";
-                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 2" . "</td>";
-                    echo"<td scope='row'>" . $_product->getName() . "2" . "</td>";
-                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
-                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
-                    echo"<td scope='row'>" . $productStock . "</td>";
-                    echo"<td scope='row''>" . $category . "</td>";
-                    echo"</tr>";
-
-                    echo"<tr class='category_dropdown' id='$category'>";
-                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 1" . "</td>";
-                    echo"<td scope='row'>" . $_product->getName() . "1" . "</td>";
-                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
-                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
-                    echo"<td scope='row'>" . $productStock . "</td>";
-                    echo"<td scope='row' >" . $category . "</td>";
-                    echo"</tr>";
-
-                    echo"<tr class='category_dropdown' id='$category'>";
-                    echo"<td scope='row'>" . $_product->getEntityId() . "MUIE MAGENTO CAT 1" . "</td>";
-                    echo"<td scope='row'>" . $_product->getName() . "1" . "</td>";
-                    echo"<td scope='row'>" . $_product->getSku() . "</td>";
-                    echo"<td scope='row'>" . $_product->getPrice() . "</td>";
-                    echo"<td scope='row'>" . $productStock . "</td>";
-                    echo"<td scope='row'>" . $category . "</td>";
-                    echo"</tr>";
+                    }
                         ?>
 
                             </tbody>
